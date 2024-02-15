@@ -1,5 +1,7 @@
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Services.AddDbContext<StoreContext>(opt=>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddScoped<IProductRepository,ProductRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,5 +28,22 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
+
+//Applying Migration and creating the database at app startup without using CLI commands 
+//if the migration is applied it will not be applied again and it will pass throw this method and run the app
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<StoreContext>();
+var logger = services.GetRequiredService<ILogger<Program>>();   
+try
+{
+    await context.Database.MigrateAsync();
+    await StoreContentSeed.SeedAsync(context);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex,"Error occured during migration");
+}
 
 app.Run();
