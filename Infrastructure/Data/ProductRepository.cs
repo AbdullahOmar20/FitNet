@@ -16,6 +16,7 @@ namespace Infrastructure.Data
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
+            //the include is for adding the eager loading to the navigation properties to get the brands and types in the output
             return await _context.Products
             .Include(p=>p.ProductBrand).Include(p=>p.ProductType)
             .FirstOrDefaultAsync(p=> p.Id == id);
