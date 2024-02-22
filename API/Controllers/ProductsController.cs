@@ -1,4 +1,5 @@
 using API.DTO;
+using API.Errors;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -9,9 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+
+    public class ProductsController : BaseController
     {
         private readonly IGenericRepository<Product> _productrepo;
         private readonly IGenericRepository<ProductBrand> _productbrandrepo;
@@ -39,10 +39,18 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        //used to document the api in swagger 
+        //the things swagger can't docment as the return of the 404 no found that we specify
+        //not really needed to write it to every method but if you want to tell more info so people use the api knows
+        //what types of error they might have 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(APIResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpec(id);
             var product = await _productrepo.GetEntityWithSpec(spec);
+            if(product == null) return NotFound(new APIResponse(404));
             return _mapper.Map<Product,ProductToReturnDTO>(product);
         }
         [HttpGet("brands")]
