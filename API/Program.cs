@@ -14,14 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddAppServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSwaggerDocumentaion();
 var app = builder.Build();
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseMiddleware<ExceptionMiddleware>();
 // Configure the HTTP request pipeline.
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
+app.UseSwaggerDocumentation();
 app.UseStaticFiles();
 app.UseCors("CorsPolicy");
 app.UseAuthentication();
