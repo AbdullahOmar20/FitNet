@@ -29,6 +29,7 @@ namespace API.Controllers
             _productTyperepo = ProductTypeRepo;
             
         }
+        [Cached(600)]
         [HttpGet]
         public async Task< ActionResult<Pagination<ProductToReturnDTO>>> GetProducts(
             [FromQuery]ProductSpecParams productparams)
@@ -43,6 +44,7 @@ namespace API.Controllers
             return Ok(new Pagination<ProductToReturnDTO>(productparams.PageIndex,productparams.PageSize,total,data));
         }
 
+
         [HttpGet("{id}")]
         //used to document the api in swagger 
         //the things swagger can't docment as the return of the 404 no found that we specify
@@ -50,7 +52,7 @@ namespace API.Controllers
         //what types of error they might have 
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(APIResponse), StatusCodes.Status404NotFound)]
-
+        [Cached(600)]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpec(id);
@@ -58,11 +60,13 @@ namespace API.Controllers
             if(product == null) return NotFound(new APIResponse(404));
             return _mapper.Map<Product,ProductToReturnDTO>(product);
         }
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             return Ok(await _productbrandrepo.ListAllAsync());
         }
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
         {
