@@ -33,3 +33,7 @@ FitNet is a robust E-Commerce platform built on ASP.NET Web API, designed to pro
 </ol>
 <h2>Contributing</h2>
 Contributions are welcome! Feel free to fork the repository, make your changes, and submit a pull request. Please ensure that your code adheres to the project's coding standards and conventions.
+
+## Screenshot
+![Screenshot 2024-08-21 212717](https://github.com/user-attachments/assets/3ad8d71d-4e12-4022-ab12-a6d9d6fcc6d1)
+
