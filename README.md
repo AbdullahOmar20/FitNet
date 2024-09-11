@@ -30,6 +30,7 @@ FitNet is a robust E-Commerce platform built on ASP.NET Web API, designed to pro
 <li>Run the database migrations to create the necessary tables.</li>
 <li>Build and run the application.</li>
 <li>Access the Swagger UI to explore the API endpoints and start using FitNet.</li>
+<li>Here is also Postman collection to test the API: <a href="https://netero123.postman.co/workspace/Netero-Workspace~3d23873a-da0f-424d-8e79-fc98f51c17c1/api/00a760ab-d4a2-4352-84c8-18ff8cf3bee7?action=share&creator=29744142">Postman</a></li>
 </ol>
 <h2>Contributing</h2>
 Contributions are welcome! Feel free to fork the repository, make your changes, and submit a pull request. Please ensure that your code adheres to the project's coding standards and conventions.
