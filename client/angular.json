@@ -66,7 +66,9 @@
           "options": {
             "ssl": true,
             "sslCert": "ssl/localhost.pem",
-            "sslKey": "ssl/localhost-key.pem"
+            "sslKey": "ssl/localhost-key.pem",
+            "port": 4200,
+            "host": "localhost"
           },
           "configurations": {
             "production": {
