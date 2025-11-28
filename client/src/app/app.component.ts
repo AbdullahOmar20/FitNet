@@ -2,6 +2,8 @@ import { Component, inject, OnInit, Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../layout/header/header.component";
 import { HttpClient } from '@angular/common/http';
+import { Products } from '../shared/Models/Products';
+import { Pagination } from '../shared/Models/Pagination';
 
 @Component({
   selector: 'app-root',
@@ -24,21 +26,4 @@ export class AppComponent implements OnInit {
       complete: () => console.log("complete")
     })
   }
-}
-
-type Products = {
-  id: number,
-  name: string,
-  description: string,
-  price: number,
-  pictureUrl: string,
-  productType: string,
-  productBrand: string
-}
-
-type Pagination<T> = {
-  pageIndex: number,
-  pageSize: number,
-  count: number,
-  data: T[]
 }
