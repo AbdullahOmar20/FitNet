@@ -8,7 +8,14 @@
 
 :root {
   @include mat.button-overrides((
-    container-shape: '6px'
+    container-shape: '6px',
+    label-text-color: black
+  ));
+  @include mat.card-overrides((
+    container-color: rgb(245, 241, 253)
+  ));
+  @include mat.icon-overrides((
+    color: rgb(15, 1, 48),
   ));
 }
 
@@ -19,4 +26,8 @@
 
 .container{
   @apply mx-auto max-w-screen-2xl
+}
+
+.product-item-text{
+  color: black;
 }
