@@ -2,7 +2,7 @@ import { Component, inject, OnInit, Type } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../layout/header/header.component";
 import { Products } from '../shared/Models/Products';
-import { ShopService } from './core/services/shop.service';
+import { ShopService } from '../core/services/shop.service';
 
 @Component({
   selector: 'app-root',
