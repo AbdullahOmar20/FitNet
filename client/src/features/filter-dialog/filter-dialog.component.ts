@@ -4,6 +4,7 @@ import { MatDivider } from "@angular/material/divider"
 import { MatSelectionList, MatListOption } from "@angular/material/list"
 import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-filter-dialog',
@@ -12,7 +13,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
     MatDivider,
     MatSelectionList,
     MatListOption,
-    MatButton
+    MatButton,
+    FormsModule
   ],
   templateUrl: './filter-dialog.component.html',
   styleUrl: './filter-dialog.component.scss'
@@ -22,13 +24,13 @@ export class FilterDialogComponent {
   private dialogRef = inject(MatDialogRef<FilterDialogComponent>)
   data = inject(MAT_DIALOG_DATA);
 
-  selectedBrands: string[] = this.data.selectedBrands
-  selectedTypes: string[] = this.data.selectedTypes
+  selectedBrands: number[] = this.data.selectedBrands
+  selectedTypes: number[] = this.data.selectedTypes
 
   applyFilter(){
     this.dialogRef.close({
       selectedBrands: this.selectedBrands,
-      selectedTypes: this.selectedBrands
+      selectedTypes: this.selectedTypes
     })
   }
 }

@@ -22,8 +22,8 @@ export class ShopComponent implements OnInit{
   shopService = inject(ShopService)
   private dialogeService = inject(MatDialog)
   products: Products[] = [];
-  selectedBrands: string[] = [];
-  selectedTypes: string[] = [];
+  selectedBrands: number[] = [];
+  selectedTypes: number[] = [];
   
   ngOnInit(): void {
     this.initializeShop();
