@@ -8,8 +8,8 @@ namespace Core.Specification
         public ProductsWithTypesAndBrandsSpec(ProductSpecParams productparams): 
         base(x=>
             (string.IsNullOrEmpty(productparams.Search) || (x.Name.ToLower().Contains(productparams.Search))) &&
-            (!productparams.brandId.HasValue || x.ProductBrandId==productparams.brandId) &&
-            (!productparams.typeId.HasValue || x.ProductTypeId==productparams.typeId)
+            (productparams.brands == null || productparams.brands.Count <= 0 || productparams.brands.Contains(x.ProductBrandId)) &&
+            (productparams.types == null || productparams.types.Count <= 0 || productparams.types.Contains(x.ProductTypeId))
         )
         {
             AddInclude(x=>x.ProductType);
