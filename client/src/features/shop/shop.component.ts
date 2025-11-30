@@ -18,6 +18,12 @@ export class ShopComponent implements OnInit{
   products: Products[] = [];
   
   ngOnInit(): void {
+    this.initializeShop();
+  }
+
+  initializeShop(){
+    this.shopService.getBrands()
+    this.shopService.getTypes()
     this.shopService.getProducts().subscribe({
       next: response => this.products = response.data,
       error: err => console.log("error" + err)
