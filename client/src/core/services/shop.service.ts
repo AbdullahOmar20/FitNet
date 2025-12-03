@@ -16,7 +16,7 @@ export class ShopService {
   types: Types[] = [];
   brands: Brands[] = [];
 
-  getProducts(brands?: number[], types?: number[]){
+  getProducts(brands?: number[], types?: number[], sort?: string){
     let params = new HttpParams();
     if(brands && brands.length > 0)
     {
@@ -32,6 +32,10 @@ export class ShopService {
       });
     }
 
+    if(sort){
+      params = params.append('sort', sort)
+    }
+    
     params = params.append('pageSize', 20)
     return this.httpClient.get<Pagination<Products>>(this.baseUrl + "Products", {params})
   }
