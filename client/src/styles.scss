@@ -17,6 +17,11 @@
   @include mat.icon-overrides((
     color: rgb(15, 1, 48),
   ));
+  @include mat.paginator-overrides((
+    container-text-color: black,
+    container-background-color: white,
+    
+  ));
 }
 
 .mat-badge-content {

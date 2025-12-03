@@ -1,16 +1,30 @@
 <div class="flex flex-col gap-3">
-    <div class="flex justify-end gap-3">
-        <button mat-stroked-button (click)="openFiltersDialog()">
-            <mat-icon>filter_list</mat-icon>
-            Filters
-        </button>
-        <button mat-stroked-button [matMenuTriggerFor]="sortMenu">
-            <mat-icon>swap_vert</mat-icon>
-            Sort
-        </button>
+    <div class="flex justify-between">
+        <mat-paginator
+            class="bg-white" 
+            (page)="handlePageEvent($event)"
+            [length]="products?.count"
+            [pageSize]="shopParams.pageSize"
+            [showFirstLastButtons]="true"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="shopParams.pageNumber - 1"
+            aria-label="Select Page"
+        >
+
+        </mat-paginator>
+        <div class="flex gap-3">
+            <button mat-stroked-button (click)="openFiltersDialog()">
+                <mat-icon>filter_list</mat-icon>
+                Filters
+            </button>
+            <button mat-stroked-button [matMenuTriggerFor]="sortMenu">
+                <mat-icon>swap_vert</mat-icon>
+                Sort
+            </button>
+        </div>
     </div>
     <div class="grid grid-cols-5 gap-4">
-        @for (product of products; track product.id) {
+        @for (product of products?.data; track product.id) {
             <app-product-item [product]="product"></app-product-item>
         }
     </div>

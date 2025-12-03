@@ -38,7 +38,7 @@ export class ShopService {
     }
 
     params = params.append('pageSize', shopParams.pageSize)
-    params = params.append('pageNumber', shopParams.pageNumber)
+    params = params.append('pageIndex', shopParams.pageNumber)
     return this.httpClient.get<Pagination<Products>>(this.baseUrl + "Products", {params})
   }
 

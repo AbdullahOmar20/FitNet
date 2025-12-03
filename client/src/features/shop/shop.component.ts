@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ShopService } from '../../core/services/shop.service';
 import { Products } from '../../shared/Models/Products';
+import { Pagination } from '../../shared/Models/Pagination';
 import { ProductItemComponent } from "../product-item/product-item.component";
 import { MatDialog } from "@angular/material/dialog"
 import { FilterDialogComponent } from '../filter-dialog/filter-dialog.component';
@@ -9,6 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { ShopParams } from '../../shared/Models/ShopParams';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-shop',
@@ -20,7 +22,8 @@ import { ShopParams } from '../../shared/Models/ShopParams';
     MatMenu,
     MatSelectionList,
     MatListOption,
-    MatMenuTrigger
+    MatMenuTrigger,
+    MatPaginatorModule
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -28,9 +31,11 @@ import { ShopParams } from '../../shared/Models/ShopParams';
 export class ShopComponent implements OnInit{
   shopService = inject(ShopService)
   private dialogeService = inject(MatDialog)
-  products: Products[] = [];
+  products?: Pagination<Products>;
 
   shopParams = new ShopParams()
+
+  pageSizeOptions = [5,10,15,20]
 
   sortOptions = [
     {name: 'Alphabetical', value: 'Name'},
@@ -50,15 +55,22 @@ export class ShopComponent implements OnInit{
 
   getProducts(){
     this.shopService.getProducts(this.shopParams).subscribe({
-      next: response => this.products = response.data,
+      next: response => this.products = response,
       error: err => console.log("error" + err)
     })
+  }
+  
+  handlePageEvent(event: PageEvent){
+    this.shopParams.pageNumber = event.pageIndex + 1
+    this.shopParams.pageSize = event.pageSize
+    this.getProducts()
   }
 
   onSortChange(event: MatSelectionListChange){
     const selectOption = event.options[0]
     if(selectOption){
       this.shopParams.sort = selectOption.value
+      this.shopParams.pageNumber = 1
       this.getProducts()
     }
   }
@@ -76,6 +88,7 @@ export class ShopComponent implements OnInit{
         if(result){
           this.shopParams.brands = result.selectedBrands;
           this.shopParams.types = result.selectedTypes;
+          this.shopParams.pageNumber = 1
           this.getProducts()
         }
       }
