@@ -6,6 +6,8 @@ import { MatDialog } from "@angular/material/dialog"
 import { FilterDialogComponent } from '../filter-dialog/filter-dialog.component';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 
 @Component({
   selector: 'app-shop',
@@ -13,7 +15,11 @@ import { MatIcon } from '@angular/material/icon';
   imports: [
     ProductItemComponent,
     MatButton,
-    MatIcon
+    MatIcon,
+    MatMenu,
+    MatSelectionList,
+    MatListOption,
+    MatMenuTrigger
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -24,6 +30,13 @@ export class ShopComponent implements OnInit{
   products: Products[] = [];
   selectedBrands: number[] = [];
   selectedTypes: number[] = [];
+  selectedSort: string = 'Name'
+
+  sortOptions = [
+    {name: 'Alphabetical', value: 'Name'},
+    {name: 'Price: Low-High', value: 'priceAsc'},
+    {name: 'Price: High-Low', value: 'priceDesc'}
+  ]
   
   ngOnInit(): void {
     this.initializeShop();
@@ -32,10 +45,22 @@ export class ShopComponent implements OnInit{
   initializeShop(){
     this.shopService.getBrands()
     this.shopService.getTypes()
-    this.shopService.getProducts().subscribe({
+    this.getProducts()
+  }
+
+  getProducts(){
+    this.shopService.getProducts(this.selectedBrands, this.selectedTypes, this.selectedSort).subscribe({
       next: response => this.products = response.data,
       error: err => console.log("error" + err)
     })
+  }
+
+  onSortChange(event: MatSelectionListChange){
+    const selectOption = event.options[0]
+    if(selectOption){
+      this.selectedSort = selectOption.value
+      this.getProducts()
+    }
   }
 
   openFiltersDialog(){
@@ -51,10 +76,7 @@ export class ShopComponent implements OnInit{
         if(result){
           this.selectedBrands = result.selectedBrands;
           this.selectedTypes = result.selectedTypes;
-          this.shopService.getProducts(this.selectedBrands, this.selectedTypes).subscribe({
-            next: response => this.products = response.data,
-            error: error => console.log(error)
-          })
+          this.getProducts()
         }
       }
     })
