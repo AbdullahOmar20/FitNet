@@ -1,6 +1,6 @@
 @if (product != undefined) {
     <mat-card appearance="raised">
-        <img src="{{product.pictureUrl}}" alt = "image of {{product.name}}">
+        <img src="{{product.pictureUrl}}" class="rounded-t-lg" alt = "image of {{product.name}}">
         <mat-card-content class="mt-2">
             <h2 class="text-sm font-semibold uppercase">{{product.name}}</h2>
             <p class="font-light">{{product.price | currency}}</p>
