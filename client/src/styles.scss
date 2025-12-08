@@ -36,3 +36,11 @@
 .product-item-text{
   color: black;
 }
+
+.match-input-height{
+  height: var(--mat-form-field-container-height) !important;
+}
+
+.text-primary{
+  @apply text-blue-700
+}
