@@ -12,12 +12,23 @@
         >
 
         </mat-paginator>
+
+        <form #searchForm="ngForm"
+            (ngReset)="onResetSubmit()"
+            class="relative flex w-full items-center max-w-md mx-4"
+            >
+            <app-search-input class="block w-full h-full text-sm" (textChange)="onTextChange($event)"></app-search-input>
+            <button mat-icon-button type="reset" (click)="onResetSubmit()" class="absolute inset-y-0 items-center pl-3" >
+                <mat-icon>autorenew</mat-icon>
+            </button>
+        </form>
+
         <div class="flex gap-3">
-            <button mat-stroked-button (click)="openFiltersDialog()">
+            <button class="match-input-height" mat-stroked-button (click)="openFiltersDialog()">
                 <mat-icon>filter_list</mat-icon>
                 Filters
             </button>
-            <button mat-stroked-button [matMenuTriggerFor]="sortMenu">
+            <button class="match-input-height" mat-stroked-button [matMenuTriggerFor]="sortMenu">
                 <mat-icon>swap_vert</mat-icon>
                 Sort
             </button>

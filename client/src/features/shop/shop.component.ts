@@ -5,12 +5,15 @@ import { Pagination } from '../../shared/Models/Pagination';
 import { ProductItemComponent } from "../product-item/product-item.component";
 import { MatDialog } from "@angular/material/dialog"
 import { FilterDialogComponent } from '../filter-dialog/filter-dialog.component';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { ShopParams } from '../../shared/Models/ShopParams';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { FormsModule } from '@angular/forms';
+import { AppSearchInputComponent } from '../app-search-input/app-search-input.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-shop',
@@ -23,7 +26,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
     MatSelectionList,
     MatListOption,
     MatMenuTrigger,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FormsModule,
+    MatIconButton,
+    AppSearchInputComponent
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -32,6 +38,8 @@ export class ShopComponent implements OnInit{
   shopService = inject(ShopService)
   private dialogeService = inject(MatDialog)
   products?: Pagination<Products>;
+
+  subs: Subscription[] = []
 
   shopParams = new ShopParams()
 
@@ -58,6 +66,31 @@ export class ShopComponent implements OnInit{
       next: response => this.products = response,
       error: err => console.log("error" + err)
     })
+  }
+  getProductssubs(): Subscription{
+    return this.shopService.getProducts(this.shopParams).subscribe({
+      next: response => this.products = response,
+      error: err => console.log("error" + err)
+    })
+  }
+
+  onTextChange(changedText: string){
+    this.cancelSubs()
+    this.shopParams.pageNumber = 1
+    this.shopParams.search = changedText
+    const sub = this.getProductssubs()
+    this.subs.push(sub)
+  }
+
+  cancelSubs(){
+    this.subs.forEach(s => s.unsubscribe())
+  }
+
+  onResetSubmit(){
+    this.shopParams.pageNumber = 1
+    this.shopParams.search = ''
+    this.cancelSubs()
+    this.getProducts()
   }
   
   handlePageEvent(event: PageEvent){

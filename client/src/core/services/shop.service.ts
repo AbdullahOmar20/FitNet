@@ -36,6 +36,9 @@ export class ShopService {
     if(shopParams.sort){
       params = params.append('sort', shopParams.sort)
     }
+    if(shopParams.search){
+      params = params.append('search', shopParams.search)
+    }
 
     params = params.append('pageSize', shopParams.pageSize)
     params = params.append('pageIndex', shopParams.pageNumber)
