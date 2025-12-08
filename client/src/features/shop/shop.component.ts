@@ -87,10 +87,13 @@ export class ShopComponent implements OnInit{
   }
 
   onResetSubmit(){
-    this.shopParams.pageNumber = 1
-    this.shopParams.search = ''
-    this.cancelSubs()
-    this.getProducts()
+    if(this.shopParams.search != '')
+    {
+      this.shopParams.pageNumber = 1
+      this.shopParams.search = ''
+      this.cancelSubs()
+      this.getProducts()
+    }
   }
   
   handlePageEvent(event: PageEvent){
