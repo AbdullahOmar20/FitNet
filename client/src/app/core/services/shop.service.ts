@@ -58,4 +58,8 @@ export class ShopService {
     })
     
   }
+
+  getProduct(id: number){
+    return this.httpClient.get<Products>(this.baseUrl + "Products/" + id);
+  }
 }
