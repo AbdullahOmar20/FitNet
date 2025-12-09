@@ -44,3 +44,9 @@
 .text-primary{
   @apply text-blue-700
 }
+
+.mdc-notched-outline__notch{
+  border-right-style: none !important;
+
+  color: black;
+}
