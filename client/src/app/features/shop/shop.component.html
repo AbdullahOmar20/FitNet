@@ -1,52 +1,55 @@
-<div class="flex flex-col gap-3">
-    <div class="flex justify-between">
-        <mat-paginator
-            class="bg-white" 
-            (page)="handlePageEvent($event)"
-            [length]="products?.count"
-            [pageSize]="shopParams.pageSize"
-            [showFirstLastButtons]="true"
-            [pageSizeOptions]="pageSizeOptions"
-            [pageIndex]="shopParams.pageNumber - 1"
-            aria-label="Select Page"
-        >
+@if (products) {
 
-        </mat-paginator>
-
-        <form #searchForm="ngForm"
-            (ngReset)="onResetSubmit()"
-            class="relative flex w-full items-center max-w-md mx-4"
+    <div class="flex flex-col gap-3">
+        <div class="flex justify-between">
+            <mat-paginator
+                class="bg-white" 
+                (page)="handlePageEvent($event)"
+                [length]="products.count"
+                [pageSize]="shopParams.pageSize"
+                [showFirstLastButtons]="true"
+                [pageSizeOptions]="pageSizeOptions"
+                [pageIndex]="shopParams.pageNumber - 1"
+                aria-label="Select Page"
             >
-            <app-search-input class="block w-full h-full text-sm" (textChange)="onTextChange($event)"></app-search-input>
-            <button mat-icon-button type="reset" (click)="onResetSubmit()" class="absolute inset-y-0 items-center pl-3" >
-                <mat-icon>autorenew</mat-icon>
-            </button>
-        </form>
-
-        <div class="flex gap-3">
-            <button class="match-input-height" mat-stroked-button (click)="openFiltersDialog()">
-                <mat-icon>filter_list</mat-icon>
-                Filters
-            </button>
-            <button class="match-input-height" mat-stroked-button [matMenuTriggerFor]="sortMenu">
-                <mat-icon>swap_vert</mat-icon>
-                Sort
-            </button>
+    
+            </mat-paginator>
+    
+            <form #searchForm="ngForm"
+                (ngReset)="onResetSubmit()"
+                class="relative flex w-full items-center max-w-md mx-4"
+                >
+                <app-search-input class="block w-full h-full text-sm" (textChange)="onTextChange($event)"></app-search-input>
+                <button mat-icon-button type="reset" (click)="onResetSubmit()" class="absolute inset-y-0 items-center pl-3" >
+                    <mat-icon>autorenew</mat-icon>
+                </button>
+            </form>
+    
+            <div class="flex gap-3">
+                <button class="match-input-height" mat-stroked-button (click)="openFiltersDialog()">
+                    <mat-icon>filter_list</mat-icon>
+                    Filters
+                </button>
+                <button class="match-input-height" mat-stroked-button [matMenuTriggerFor]="sortMenu">
+                    <mat-icon>swap_vert</mat-icon>
+                    Sort
+                </button>
+            </div>
+        </div>
+        <div class="grid grid-cols-5 gap-4">
+            @for (product of products.data; track product.id) {
+                <app-product-item [product]="product"></app-product-item>
+            }
         </div>
     </div>
-    <div class="grid grid-cols-5 gap-4">
-        @for (product of products?.data; track product.id) {
-            <app-product-item [product]="product"></app-product-item>
-        }
-    </div>
-</div>
-
-<mat-menu #sortMenu="matMenu">
-    <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
-        @for (option of sortOptions; track $index) {
-            <mat-list-option [value]= 'option.value' [selected]="shopParams.sort === option.value">
-                {{option.name}}
-            </mat-list-option>
-        }
-    </mat-selection-list>
-</mat-menu>
+    
+    <mat-menu #sortMenu="matMenu">
+        <mat-selection-list [multiple]="false" (selectionChange)="onSortChange($event)">
+            @for (option of sortOptions; track $index) {
+                <mat-list-option [value]= 'option.value' [selected]="shopParams.sort === option.value">
+                    {{option.name}}
+                </mat-list-option>
+            }
+        </mat-selection-list>
+    </mat-menu>
+}
