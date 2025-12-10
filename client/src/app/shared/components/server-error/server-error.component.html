@@ -1,0 +1,7 @@
+<div class="container mt-5 p-4 bg-gray-400 rounded shadow-lg">
+    <h1 class="text-xl font-semibold mb-4">Internal Server Error</h1>
+    @if (error){
+        <h2 class="text-red-500">Error: {{error.message}}</h2>
+        <p class="font-bold mb-2">Error from the server</p>
+    }
+</div>
