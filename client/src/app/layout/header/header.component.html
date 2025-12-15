@@ -1,4 +1,4 @@
-<header class="shadow-md p-3 w-full bg-white">
+<header class="shadow-md p-3 w-full bg-white min-h-20 fixed top-0 z-50">
     <div class="flex align-middle items-center justify-between max-w-full mx-auto">
         <img src="images/logo.png" alt="logo" class="max-h-16">
         <nav class="flex items-center gap-4 my-2 pl-40 uppercase text-xl">
@@ -17,5 +17,5 @@
 </header>
 
 @if(busySrevice.loading){
-    <mat-progress-bar mode = "indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode = "indeterminate" class="fixed top-20 z-50"></mat-progress-bar>
 }
