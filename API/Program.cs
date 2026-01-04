@@ -15,6 +15,22 @@ builder.Services.AddControllers();
 builder.Services.AddAppServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddSwaggerDocumentaion();
+
+// Explicit HTTPS config
+if(OperatingSystem.IsLinux())
+{
+    var certPath = Path.Combine(builder.Environment.ContentRootPath, "localhost.pfx");
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenLocalhost(5000); // HTTP
+
+        options.ListenLocalhost(5001, listen =>
+        {
+            listen.UseHttps(certPath, "");
+        });
+    });
+}
+
 var app = builder.Build();
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseMiddleware<ExceptionMiddleware>();
