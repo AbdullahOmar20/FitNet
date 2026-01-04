@@ -1,0 +1,51 @@
+Steps to create a trusted HTTPS certificate
+
+1- Install mkcert
+
+sudo pacman -S mkcert nss   # Arch
+# OR
+sudo apt install mkcert libnss3-tools
+
+
+2- create and trust local CA System-Wide
+
+mkcert -install
+
+This installs the CA into:
+
+/etc/ca-certificates/trust-source/
+NSS (Firefox / Chromium)
+OpenSSL
+
+for Verifing:
+mkcert -CAROOT
+
+3- Generate the certificate 
+mkcert localhost 
+
+4- convert pem into pfx
+openssl pkcs12 -export \
+  -out localhost.pfx \
+  -inkey localhost-key.pem \
+  -in localhost.pem
+
+make sure the pfx file generate is in API layer 
+
+5- Configure app to use https certificate 
+
+write this in Program.cs 
+
+if(OperatingSystem.IsLinux())
+{
+    var certPath = Path.Combine(builder.Environment.ContentRootPath, "localhost.pfx");
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenLocalhost(5000); // HTTP
+
+        options.ListenLocalhost(5001, listen =>
+        {
+            listen.UseHttps(certPath, "");
+        });
+    });
+}
+
