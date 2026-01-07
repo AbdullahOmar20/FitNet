@@ -5,6 +5,7 @@ import {MatButton} from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BusyService } from '../../core/services/busy.service';
+import { CartService } from '../../core/services/cart.service';
 
 @Component({
     selector: 'app-header',
@@ -22,4 +23,8 @@ import { BusyService } from '../../core/services/busy.service';
 })
 export class HeaderComponent {
   busySrevice = inject(BusyService)
+  cartService = inject(CartService);
+
+  computedCartCount = this.cartService.getCoumputedCartCount();
+
 }

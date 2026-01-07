@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Cart, CartItems } from '../../shared/Models/cart';
@@ -13,6 +13,10 @@ export class CartService {
 
   private http = inject(HttpClient)
   cart = signal<Cart | null>(null)
+
+  cartItemsCount = computed(() => {
+    return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0)
+  })
 
   getCart(id: string){
     return this.http.get<Cart>(this.baseUrl + 'Basket?id=' + id).pipe(
@@ -36,6 +40,9 @@ export class CartService {
     cart.items = this.addOrUpdaeItem(cart.items, item, quantity)
     this.setCart(cart)
 
+  }
+  getCoumputedCartCount(){
+    return this.cartItemsCount
   }
   private addOrUpdaeItem(items: CartItems[], item: CartItems, quantity: number): CartItems[]{
     const index = items.findIndex(x => x.id === item.id);
