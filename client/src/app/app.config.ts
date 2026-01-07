@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -7,12 +7,23 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MAT_DIALOG_DATA, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
+import { InitService } from './core/services/init.service';
+import { lastValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes), 
     provideAnimationsAsync(),
+    provideAppInitializer(async () => {
+      const initService = inject(InitService);
+      return lastValueFrom(initService.Init()).finally(() => {
+        const splash = document.getElementById('initial-splash')
+        if(splash){
+          splash.remove();
+        }
+      })
+    }),
     provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
