@@ -3,11 +3,10 @@ import { Component, EventEmitter, Input, Output, OnDestroy, OnInit, input, outpu
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
-  selector: 'app-search-input',
-  standalone: true,
-  imports: [],
-  templateUrl: './app-search-input.component.html',
-  styleUrl: './app-search-input.component.scss'
+    selector: 'app-search-input',
+    imports: [],
+    templateUrl: './app-search-input.component.html',
+    styleUrl: './app-search-input.component.scss'
 })
 export class AppSearchInputComponent implements OnInit, OnDestroy{
   

@@ -16,23 +16,22 @@ import { AppSearchInputComponent } from '../app-search-input/app-search-input.co
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-shop',
-  standalone: true,
-  imports: [
-    ProductItemComponent,
-    MatButton,
-    MatIcon,
-    MatMenu,
-    MatSelectionList,
-    MatListOption,
-    MatMenuTrigger,
-    MatPaginatorModule,
-    FormsModule,
-    MatIconButton,
-    AppSearchInputComponent
-],
-  templateUrl: './shop.component.html',
-  styleUrl: './shop.component.scss'
+    selector: 'app-shop',
+    imports: [
+        ProductItemComponent,
+        MatButton,
+        MatIcon,
+        MatMenu,
+        MatSelectionList,
+        MatListOption,
+        MatMenuTrigger,
+        MatPaginatorModule,
+        FormsModule,
+        MatIconButton,
+        AppSearchInputComponent
+    ],
+    templateUrl: './shop.component.html',
+    styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit{
   shopService = inject(ShopService)
