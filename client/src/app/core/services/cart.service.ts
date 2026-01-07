@@ -15,7 +15,7 @@ export class CartService {
   cart = signal<Cart | null>(null)
 
   getCart(id: string){
-    return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).pipe(
+    return this.http.get<Cart>(this.baseUrl + 'Basket?id=' + id).pipe(
       map((cart) => {
         this.cart.set(cart)
         return cart
@@ -24,7 +24,7 @@ export class CartService {
   }
 
   setCart(cart: Cart){
-    return this.http.post<Cart>(this.baseUrl + 'cart', cart).subscribe({
+    return this.http.post<Cart>(this.baseUrl + 'Basket', cart).subscribe({
       next: cart => this.cart.set(cart)
     })
   }
