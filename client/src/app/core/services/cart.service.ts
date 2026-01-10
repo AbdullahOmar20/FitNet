@@ -55,6 +55,17 @@ export class CartService {
     this.setCart(cart)
 
   }
+
+  removeItemFromCart(item: CartItems | Products, quantity = 1){
+    const cart = this.cart() ?? this.createCart();
+    if(this.isProduct(item)){
+      item = this.mapProductToCartItem(item);
+    }
+
+    cart.items = this.removeItem(cart.items, item, quantity);
+    this.setCart(cart);
+  }
+
   getCoumputedCartCount(){
     return this.cartItemsCount
   }
@@ -66,6 +77,18 @@ export class CartService {
       return items;
     }
     items[index].quantity += quantity;
+
+    return items;
+  }
+  private removeItem(items: CartItems[], item: CartItems, quantity: number): CartItems[]{
+    const index = items.findIndex(x => x.id === item.id);
+    if(index === -1) return items;
+
+    items[index].quantity -= quantity;
+
+    if(items[index].quantity <= 0){
+      return items.filter(x => x.id === item.id);
+    }
 
     return items;
   }
