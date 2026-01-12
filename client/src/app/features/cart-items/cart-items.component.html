@@ -5,13 +5,13 @@
         </a>
         <div class="flex items-center justify-between order-3">
             <div class="flex items-center align-middle gap-3">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="decrement()">
                     <mat-icon class="text-red-600">remove</mat-icon>
                 </button>
 
                 <div class="font-semibold text-xl mb-1">{{item().quantity}}</div>
 
-                <button mat-icon-button>
+                <button mat-icon-button (click)="increment()">
                     <mat-icon class="text-green-600">add</mat-icon>
                 </button>
             </div>
@@ -23,7 +23,7 @@
         <div class="w-full flex flex-col flex-1 space-y-4 order-2 max-w-md">
             <a routerLink="/shop/{{item().id}}" class="font-medium">{{item().name}}</a>
             <div class="felx items-center gap-4">
-                <button mat-button class="flex items-center text-red-700 gap-2">
+                <button mat-button class="flex items-center text-red-700 gap-2" (click)="removeFromCart()">
                     <mat-icon class="text-red-700">delete</mat-icon>
                     Delete
                 </button>
