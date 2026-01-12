@@ -56,14 +56,33 @@ export class CartService {
 
   }
 
-  removeItemFromCart(item: CartItems | Products, quantity = 1){
-    const cart = this.cart() ?? this.createCart();
-    if(this.isProduct(item)){
-      item = this.mapProductToCartItem(item);
+  removeItemFromCart(productId: number, quantity = 1){
+    const cart = this.cart();
+    if(!cart) return;
+
+    const index = cart.items.findIndex(x => x.id === productId);
+    if(index === -1) return;
+
+    cart.items[index].quantity -= quantity;
+
+    if(cart.items[index].quantity <= 0){
+      cart.items.splice(index, 1);
     }
 
-    cart.items = this.removeItem(cart.items, item, quantity);
+    if(cart.items.length === 0)
+    {
+      this.deleteCart()
+    }
     this.setCart(cart);
+  }
+
+  deleteCart(){
+    return this.http.delete<Cart>(this.baseUrl + 'Basket?id=' + this.cart()?.id).subscribe({
+      next: () => {
+        localStorage.removeItem('cart_id');
+        this.cart.set(null);
+      }
+    })
   }
 
   getCoumputedCartCount(){
@@ -80,14 +99,15 @@ export class CartService {
 
     return items;
   }
-  private removeItem(items: CartItems[], item: CartItems, quantity: number): CartItems[]{
-    const index = items.findIndex(x => x.id === item.id);
+  private removeItem(items: CartItems[], productId: number, quantity: number): CartItems[]{
+    const index = items.findIndex(x => x.id === productId);
     if(index === -1) return items;
 
     items[index].quantity -= quantity;
 
     if(items[index].quantity <= 0){
-      return items.filter(x => x.id === item.id);
+      items.splice(productId, 1);
+      return items;
     }
 
     return items;
